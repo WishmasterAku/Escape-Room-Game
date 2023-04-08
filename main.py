@@ -11,3 +11,23 @@ class GameObject: #Values below are not needed since it's initialized in the ini
         self.appearance = appearance
         self.feel = feel
         self.smell = smell
+
+    def look(self):#Self is the object that is calling the function
+        return f"You look at the {self.name}. {self.apperance}\n"
+
+    def touch(self):
+        return f"You touch the {self.name}. {self.feel}\n"
+
+    def sniff(self):
+        return f"You sniff the {self.name}. {self.smell}\n"
+
+game_object = GameObject("Knife", "Some appearance", "Some Feel", "Some Smell")#Instance of the Class GameObject
+
+print(game_object.name)
+
+print(game_object.sniff())
+
+class Room:
+    escape_code = 0
+    
+
