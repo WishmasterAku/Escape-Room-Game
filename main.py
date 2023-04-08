@@ -27,7 +27,78 @@ print(game_object.name)
 
 print(game_object.sniff())
 
-class Room:
-    escape_code = 0
-    
+class Room_One:
+        
+    def __init__(self, escape_code, game_objects = []):
+        self.escape_code = escape_code
+        self.game_objects = game_objects
 
+    def check_code(self, code):
+        return self.escape_code == code
+    
+    def get_game_object_names(self):
+        names = []
+        for object in self.game_objects:
+            names.append(object.name)
+        return names
+
+class Room_Two:
+
+    def __init__(self, escape_code, game_objects = [], key = False):
+        self.escape_code = escape_code
+        self.game_objects = game_objects
+        self.key = key
+
+    def check_code(self, code):
+        return self.escape_code == code
+    
+    def have_key(self):
+        return self.key == True
+    
+    def get_game_object_names(self):
+        names = []
+        for object in self.game_objects:
+            names.append(object.name)
+        return names
+    
+class Game:
+
+    def __init__(self):
+        self.attempts = 0
+        objects = self.create_objects()
+        self.room = Room(731, objects)
+
+    def create_objects(self):
+        return[    
+            GameObject(
+            "Sweater",
+            "It's a blue sweater that had number 12 switched on it.",
+            "Someone has unstitched the second number, leaving only the 1.",
+            "The sweater smells of laundry detergent."),
+            GameObject(
+            "Chair",
+            "It's a wooden chair with only 3 legs.",
+            "Someone had deliberately snapped off one of the legs.",
+            "It smells like old wood,"),
+            GameObject(
+            "Journal",
+            "The final entry states that time should be hours then minutes then seconds (H-M-S).",
+            "The cover is worn and several pages are missing.",
+            "It smells like musty leather."),
+            GameObject(
+            "Bow of soup",
+            "It appears to be tomato soup.",
+            "It has cooled down to room temperature.",
+            "You detect 7 different herbs and spices."),
+            GameObject(
+            "Clock",
+            "The hour hand is pointing towards the soup, the minute hand towards the chair, and the second hand towards the sweater.",
+            "The battery compartment is open and empty.",
+            "It smells of plastic."),
+            ]
+        
+    def take_turn(self):
+        return ""
+    
+    def get_room_prompt(self):
+        return ""
