@@ -1,3 +1,5 @@
+room_prompt = "Enter the 3 digit lock code or choose an item to interact"
+
 #Classes are simply blueprints for objects, responsible for defining which fields (variables) and methods (functions) the objects are going to have.
 class GameObject: #Values below are not needed since it's initialized in the init function
     name = "" #Fields of a Class. Properties
@@ -23,11 +25,7 @@ class GameObject: #Values below are not needed since it's initialized in the ini
 
 game_object = GameObject("Knife", "Some appearance", "Some Feel", "Some Smell")#Instance of the Class GameObject
 
-print(game_object.name)
-
-print(game_object.sniff())
-
-class Room_One:
+class Room:
         
     def __init__(self, escape_code, game_objects = []):
         self.escape_code = escape_code
@@ -42,25 +40,6 @@ class Room_One:
             names.append(object.name)
         return names
 
-class Room_Two:
-
-    def __init__(self, escape_code, game_objects = [], key = False):
-        self.escape_code = escape_code
-        self.game_objects = game_objects
-        self.key = key
-
-    def check_code(self, code):
-        return self.escape_code == code
-    
-    def have_key(self):
-        return self.key == True
-    
-    def get_game_object_names(self):
-        names = []
-        for object in self.game_objects:
-            names.append(object.name)
-        return names
-    
 class Game:
 
     def __init__(self):
@@ -98,7 +77,19 @@ class Game:
             ]
         
     def take_turn(self):
-        return ""
+        prompt = self.get_room_prompt()
+        selection = input(prompt)
+        print(selection)
     
     def get_room_prompt(self):
-        return ""
+        prompt = "Enter the 3-digit lock code or choose an item to interact with:\n"
+        names = self.room.get_game_object_names()
+        index = 1
+        for name in names:
+            prompt += f"{index}. {name}\n"
+            index += 1
+        return prompt
+
+    
+game = Game()
+game.take_turn()
