@@ -78,9 +78,9 @@ class Game:
         
     def take_turn(self):
         prompt = self.get_room_prompt()
-        selection = input(prompt)
-        print(selection)
-    
+        selection = int(input(prompt))
+        self.select_object(selection - 1)
+            
     def get_room_prompt(self):
         prompt = "Enter the 3-digit lock code or choose an item to interact with:\n"
         names = self.room.get_game_object_names()
@@ -91,10 +91,26 @@ class Game:
         return prompt
 
     def select_object(self, index):
+        selected_object = self.room.game_objects[index]
+        prompt = self.get_object_interaction_string(selected_object.name)
+        interaction = input(prompt)
+        print(interaction)
         return
     
-    def get_object_interaction_strin(self, name):
-        return ""
+    def get_object_interaction_string(self, name):
+        return f"How do you want to interact with the {name}?\n1. Look\n2. Touch\n3. Sniff\n4. Back\n"
+    
+    def interact_object_object(self, object, interaction):
+        if interaction == 1:
+            return object.look()
+        elif interaction == 2:
+            return object.touch()
+        elif interaction == 3:
+            return object.sniff()
+        elif interaction == 4:
+            return self.take_turn()
+        else:
+            return "Invalid Interaction"
     
 game = Game()
 game.take_turn()
