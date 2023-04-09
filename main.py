@@ -90,6 +90,11 @@ class Game:
             index += 1
         return prompt
 
+    def select_object(self, index):
+        return
+    
+    def get_object_interaction_strin(self, name):
+        return ""
     
 game = Game()
 game.take_turn()
