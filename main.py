@@ -27,7 +27,7 @@ game_object = GameObject("Knife", "Some appearance", "Some Feel", "Some Smell")#
 
 class Room:
         
-    def __init__(self, escape_code, game_objects = []):
+    def __init__(self, escape_code, game_objects = []):#Default value for game_objects is an empty list
         self.escape_code = escape_code
         self.game_objects = game_objects
 
@@ -94,21 +94,20 @@ class Game:
         selected_object = self.room.game_objects[index]
         prompt = self.get_object_interaction_string(selected_object.name)
         interaction = input(prompt)
-        print(interaction)
-        return
+        clue = self.interact_with_object(selected_object, interaction)
+        print(clue)
+        
     
     def get_object_interaction_string(self, name):
         return f"How do you want to interact with the {name}?\n1. Look\n2. Touch\n3. Sniff\n4. Back\n"
     
     def interact_object_object(self, object, interaction):
-        if interaction == 1:
+        if interaction == "1":
             return object.look()
-        elif interaction == 2:
+        elif interaction == "2":
             return object.touch()
-        elif interaction == 3:
+        elif interaction == "3":
             return object.sniff()
-        elif interaction == 4:
-            return self.take_turn()
         else:
             return "Invalid Interaction"
     
