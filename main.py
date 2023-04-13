@@ -2,10 +2,7 @@ room_prompt = "Enter the 3 digit lock code or choose an item to interact"
 
 #Classes are simply blueprints for objects, responsible for defining which fields (variables) and methods (functions) the objects are going to have.
 class GameObject: #Values below are not needed since it's initialized in the init function
-    name = "" #Fields of a Class. Properties
-    appearance = "" 
-    feel = ""
-    smell = ""
+
 
 #Special Function to use to setup the inital values of the Class GameObject
     def __init__(self, name, appearance, feel, smell): #Initializer | Function needs self parameters
@@ -15,7 +12,7 @@ class GameObject: #Values below are not needed since it's initialized in the ini
         self.smell = smell
 
     def look(self):#Self is the object that is calling the function
-        return f"You look at the {self.name}. {self.apperance}\n"
+        return f"You look at the {self.name}. {self.appearance}\n"
 
     def touch(self):
         return f"You touch the {self.name}. {self.feel}\n"
@@ -23,7 +20,7 @@ class GameObject: #Values below are not needed since it's initialized in the ini
     def sniff(self):
         return f"You sniff the {self.name}. {self.smell}\n"
 
-game_object = GameObject("Knife", "Some appearance", "Some Feel", "Some Smell")#Instance of the Class GameObject
+#game_object = GameObject("Knife", "Some appearance", "Some Feel", "Some Smell")#Instance of the Class GameObject
 
 class Room:
         
@@ -74,12 +71,26 @@ class Game:
             "The hour hand is pointing towards the soup, the minute hand towards the chair, and the second hand towards the sweater.",
             "The battery compartment is open and empty.",
             "It smells of plastic."),
-            ]
+        ]
         
     def take_turn(self):
         prompt = self.get_room_prompt()
         selection = int(input(prompt))
-        self.select_object(selection - 1)
+        if selection >= 1 and selection <= 5:
+            self.select_object(selection - 1)
+            self.take_turn()
+        else:
+            is_code_correct = self.guess_code(selection)
+            if is_code_correct:
+                print("Congratulations! You escaped the room!")
+            else: 
+                if self.attempts == 3:
+                    print("Gameover! You have failed to escape the room!")
+                else:
+                    print(f'Incorrect code. You have {self.attempts}/3 attempts.')
+                    self.take_turn()
+                    
+                
             
     def get_room_prompt(self):
         prompt = "Enter the 3-digit lock code or choose an item to interact with:\n"
@@ -101,7 +112,7 @@ class Game:
     def get_object_interaction_string(self, name):
         return f"How do you want to interact with the {name}?\n1. Look\n2. Touch\n3. Sniff\n4. Back\n"
     
-    def interact_object_object(self, object, interaction):
+    def interact_with_object(self, object, interaction):
         if interaction == "1":
             return object.look()
         elif interaction == "2":
@@ -110,6 +121,16 @@ class Game:
             return object.sniff()
         else:
             return "Invalid Interaction"
+        
+    def guess_code(self, code):
+        if self.room.check_code(code):
+            return True
+        else:
+            self.attempts += 1
+            return False 
+            
+            
+        
     
 #game = Game()
 #game.take_turn()
